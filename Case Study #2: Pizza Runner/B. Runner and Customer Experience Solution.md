@@ -125,21 +125,18 @@ ORDER BY customer_id;
 
 ````sql
 
-WITH sub as (
-		
-	SELECT order_id, CASE
+WITH sub as (SELECT order_id, CASE
     WHEN duration LIKE 'null' THEN ' ' 
     WHEN duration LIKE '%mins' THEN TRIM('mins' from duration) 
     WHEN duration LIKE '%minute' THEN TRIM('minute' from duration)        
     WHEN duration LIKE '%minutes' THEN TRIM('minutes' from duration)
-	ELSE duration END as duration
-  	
-  FROM pizza_runner.runner_orders
-		
+    ELSE duration END as duration	
+  FROM pizza_runner.runner_orders		
 )
  
 SELECT MAX(duration::NUMERIC) - MIN(duration::NUMERIC) AS delivery_time_difference
-FROM sub;
+FROM sub
+WHERE duration not LIKE ' ';
 
 ````
 

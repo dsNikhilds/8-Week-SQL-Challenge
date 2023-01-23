@@ -180,3 +180,31 @@ ORDER BY runner_id;
 | 2           | 62.90        |
 | 3           | 40.0         |
 
+
+### 7. What is the successful delivery percentage for each runner?
+
+````sql
+
+WITH sub AS (SELECT runner_id,    CASE WHEN distance LIKE 'null' THEN '0'
+    WHEN distance LIKE '%km' THEN TRIM ('km' FROM distance)
+    ELSE distance END as distance
+	FROM pizza_runner.runner_orders
+)
+
+SELECT runner_id, ROUND(100 * SUM(
+    CASE WHEN distance::NUMERIC = 0 THEN 0
+    ELSE 1 END) / COUNT(*), 0) AS success_perc
+    
+FROM sub
+GROUP BY runner_id
+ORDER BY runner_id;
+
+````
+
+#### Answer:
+
+| runner_id   | success_perc   |
+| ----------- | -------------- |
+| 1           |     100        |
+| 2           |      75        |
+| 3           |      50        |

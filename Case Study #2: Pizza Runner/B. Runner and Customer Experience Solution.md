@@ -145,3 +145,38 @@ WHERE duration not LIKE ' ';
 | delivery_time_difference |
 | ------------------------ |
 |           30             |
+
+### 6. What was the average speed for each runner for each delivery and do you notice any trend for these values?
+
+````sql
+
+WITH sub AS(
+	SELECT runner_id,
+	CASE WHEN duration LIKE 'null' THEN '0' 
+    WHEN duration LIKE '%mins' THEN TRIM('mins' from duration) 
+    WHEN duration LIKE '%minute' THEN TRIM('minute' from duration)        
+    WHEN duration LIKE '%minutes' THEN TRIM('minutes' from duration)
+    ELSE duration END as duration,
+  
+    CASE WHEN distance LIKE 'null' THEN '0'
+    WHEN distance LIKE '%km' THEN TRIM ('km' FROM distance)
+    ELSE distance END as distance
+  	FROM pizza_runner.runner_orders
+)
+
+SELECT runner_id, AVG(distance::NUMERIC/duration::NUMERIC*60) as avg_speed
+FROM sub
+WHERE duration !='0'
+GROUP BY runner_id
+ORDER BY runner_id;
+
+````
+
+#### Answer:
+
+| runner_id   | avg_speed    |
+| ----------- | ------------ |
+| 1           | 45.54        |
+| 2           | 62.90        |
+| 3           | 40.0         |
+

@@ -119,3 +119,32 @@ ORDER BY customer_id;
 | 103         | 23.40        |
 | 104         | 10           |
 | 105         | 25           |
+
+
+### 5. What was the difference between the longest and shortest delivery times for all orders?
+
+````sql
+
+WITH sub as (
+		
+	SELECT order_id, CASE
+    WHEN duration LIKE 'null' THEN ' ' 
+    WHEN duration LIKE '%mins' THEN TRIM('mins' from duration) 
+    WHEN duration LIKE '%minute' THEN TRIM('minute' from duration)        
+    WHEN duration LIKE '%minutes' THEN TRIM('minutes' from duration)
+	ELSE duration END as duration
+  	
+  FROM pizza_runner.runner_orders
+		
+)
+ 
+SELECT MAX(duration::NUMERIC) - MIN(duration::NUMERIC) AS delivery_time_difference
+FROM sub;
+
+````
+
+#### Answer:
+
+| delivery_time_difference |
+| ------------------------ |
+|           30             |

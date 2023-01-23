@@ -44,7 +44,7 @@ Danny started by recruiting “runners” to deliver fresh pizza from Pizza Runn
 6. What was the average speed for each runner for each delivery and do you notice any trend for these values?
 7. What is the successful delivery percentage for each runner?
 
-[Solution for part B](https://github.com/dsNikhilds/8-Week-SQL-Challenge/tree/main/Case%20Study%20%232:%20Pizza%20Runner)
+[Solution for part B](https://github.com/dsNikhilds/8-Week-SQL-Challenge/blob/main/Case%20Study%20%232:%20Pizza%20Runner/B.%20Runner%20and%20Customer%20Experience%20Solution.md)
 
 ## C. Ingredient Optimisation
 

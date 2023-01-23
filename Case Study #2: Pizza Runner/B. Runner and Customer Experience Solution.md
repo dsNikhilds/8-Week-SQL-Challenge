@@ -89,3 +89,33 @@ ORDER BY pizza_order;
 | 2           | 15                |
 | 3           | 29                |
 
+
+### 4. What was the average distance travelled for each customer?
+
+````sql
+
+WITH sub as (SELECT order_id, CASE
+             WHEN distance LIKE '%km' THEN TRIM('km' FROM distance)
+             ELSE distance END AS distance
+             FROM pizza_runner.runner_orders
+            )
+
+SELECT customer_id, AVG(distance::float)
+FROM pizza_runner.customer_orders
+LEFT JOIN sub
+ON pizza_runner.customer_orders.order_id = sub.order_id
+WHERE distance != 'null'
+GROUP BY customer_id
+ORDER BY customer_id;
+
+````
+
+#### Answer:
+
+| customer_id | avg_distance |
+| ----------- | ------------ |
+| 101         | 20           |
+| 102         | 16.74        |
+| 103         | 23.40        |
+| 104         | 10           |
+| 105         | 25           |
